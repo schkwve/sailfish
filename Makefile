@@ -20,4 +20,4 @@ $(NAME): $(OBJ)
 
 .PHONY: clean
 clean:
-	@rm -r $(OBJ) $(NAME)
+	@rm -rf $(OBJ) $(NAME)
