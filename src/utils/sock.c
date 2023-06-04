@@ -14,7 +14,7 @@
 int socket_init()
 {
 	int sockfd;
-	struct sockaddr_in servaddr;
+	sockin_t servaddr;
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd == -1) {
