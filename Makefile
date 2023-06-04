@@ -14,7 +14,7 @@ SRC=$(shell find src -name "*.c" -type f)
 OBJ=$(SRC:.c=.o)
 
 .PHONY: all
-all: clean debug release # Build everything
+all: clean $(NAME) # Build everything
 
 .PHONY: help
 help: # Print help
