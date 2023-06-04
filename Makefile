@@ -27,7 +27,7 @@ help: # Print help
 	@$(CC) $(CFLAGS) $< -o $@
 
 $(NAME): $(OBJ)
-	@printf " CC  $^\n"
+	@printf " LD  $@\n"
 	@$(CC) $^ $(LDFLAGS) -o $@
 
 .PHONY: clean
