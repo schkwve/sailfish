@@ -4,6 +4,7 @@
 // for convenience :^)
 typedef struct sockaddr sockaddr_t;
 typedef struct sockaddr_in sockin_t;
+
 int socket_init();
 
 #endif // __SOCK_H_
