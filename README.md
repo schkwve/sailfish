@@ -6,6 +6,20 @@ As of now, Sailfish is in a very early stage of development. I'm working on impl
 
 # Building
 
+For testing purposes, one file was purposefully omitted: `src/utils/login.h`.
+Create the file from the following template, and fill the defines appropriately:
+```
+#ifndef __LOGIN_H_
+#define __LOGIN_H_
+
+#define XOAUTH2_USER ""
+#define XOAUTH2_ACCESS_TOKEN ""
+
+#endif // __LOGIN_H_
+```
+`XOAUTH2_USER` contains the user's Google email address (e.g. `someuser@gmail.com`)
+`XOAUTH2_ACCESS_TOKEN` can be created by following [this](https://alpineapp.email/alpine/alpine-info/misc/RegisteringAlpineinGmail.html) guide.
+
 To build Sailfish, simply run `make`. For more build options, run `make help`.
 
 # Running

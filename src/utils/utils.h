@@ -20,10 +20,10 @@
 #ifndef __UTILS_H_
 #define __UTILS_H_
 
-#define SERVER_IP "127.0.0.1" // smtp4dev - see README.md
-#define SERVER_PORT 2525
+#define SERVER_IP "108.177.96.108" // smtp4dev - see README.md
+#define SERVER_PORT 465
 
 // Isn't this more than enough?
-#define MAX_BUFSIZE 2048
+#define MAX_BUFSIZE 16384
 
 #endif // __UTILS_H_

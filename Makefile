@@ -1,12 +1,12 @@
 CC := gcc
 LD := ld
 
-CFLAGS ?= -c -std=c99 -Wall -O3
+CFLAGS += -c -std=c99 -Wall -O3
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
 	CFLAGS += -DDEBUG -g4
 endif
-LDFLAGS ?= -lm
+LDFLAGS += -lm -lssl -lcrypto
 
 NAME=sailfish
 

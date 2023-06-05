@@ -1,2 +1,3 @@
+src/utils/login.h
 sailfish
 *.o

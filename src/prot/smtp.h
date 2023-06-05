@@ -20,7 +20,9 @@
 #ifndef __SMTP_H_
 #define __SMTP_H_
 
+#include <openssl/ssl.h>
+
 void smtp_auth(int sockfd);
-char *parse_ehlo(const char *response);
+void smtp_login(SSL **ssl, const char *response);
 
 #endif // __SMTP_H_
