@@ -20,7 +20,7 @@
 #ifndef __UTILS_H_
 #define __UTILS_H_
 
-#define SERVER_IP "108.177.96.108" // smtp4dev - see README.md
+#define SERVER_IP "77.75.77.165" // smtp.seznam.cz
 #define SERVER_PORT 465
 
 // Isn't this more than enough?
