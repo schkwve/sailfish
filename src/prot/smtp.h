@@ -17,13 +17,10 @@
  *
  */
 
-#ifndef __UTILS_H_
-#define __UTILS_H_
+#ifndef __SMTP_H_
+#define __SMTP_H_
 
-#define SERVER_IP "127.0.0.1" // smtp4dev - see README.md
-#define SERVER_PORT 2525
+void smtp_auth(int sockfd);
+char *parse_ehlo(const char *response);
 
-// Isn't this more than enough?
-#define MAX_BUFSIZE 2048
-
-#endif // __UTILS_H_
+#endif // __SMTP_H_

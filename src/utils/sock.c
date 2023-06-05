@@ -42,7 +42,6 @@ int socket_init()
 	}
 
 	printf("[*] Created socket\n");
-	bzero(&servaddr, sizeof(servaddr));
 
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_addr.s_addr = inet_addr(SERVER_IP);

@@ -19,14 +19,18 @@
 
 #include <unistd.h>
 
+#include "prot/smtp.h"
+
 #include "utils/sock.h"
 #include "utils/utils.h"
 
 int main(int argc, char **argv)
 {
-	int sock = socket_init();
+	int sockfd = socket_init();
 
-	close(sock);
+	smtp_auth(sockfd);
+
+	close(sockfd);
 
 	return 0;
 }
