@@ -8,7 +8,7 @@ ifeq ($(DEBUG), 1)
 endif
 LDFLAGS ?= -lm
 
-NAME=tummy
+NAME=sailfish
 
 SRC=$(shell find src -name "*.c" -type f)
 OBJ=$(SRC:.c=.o)
