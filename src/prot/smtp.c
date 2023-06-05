@@ -65,16 +65,16 @@ char *parse_ehlo(const char *response)
 		i++;
 	
 	for (j = 0; j < i; j++) {
-		if (strncmp(token[j], "CRAM-MD5", 8) == 0) {
-			sprintf(res, "%s", token[j]);
+		if (strncmp(token[j], "CRAM-MD5", 9) == 0) {
+			snprintf(res, 9, "%s", token[j]);
 			break;
 		}
-		if (strncmp(token[j], "LOGIN", 5) == 0) {
-			sprintf(res, "%s", token[j]);
+		if (strncmp(token[j], "LOGIN", 6) == 0) {
+			snprintf(res, 6, "%s", token[j]);
 			continue;
 		}
-		if (strncmp(token[j], "PLAIN", 5) == 0) {
-			sprintf(res, "%s", token[j]);
+		if (strncmp(token[j], "PLAIN", 6) == 0) {
+			snprintf(res, 6, "%s", token[j]);
 			continue;
 		}
 	}
