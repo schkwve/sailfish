@@ -8,6 +8,15 @@ As of now, Sailfish is in a very early stage of development. I'm working on impl
 
 To build Sailfish, simply run `make`. For more build options, run `make help`.
 
+# Running
+
+To run Sailfish for testing, you'll need to run a test SMTP server first.
+Make sure you have `docker` installed, and run the following command:
+```
+docker run --rm -it -p 3000:80 -p 2525:25 rnwood/smtp4dev:v3
+```
+After the server has loaded, run Sailfish by invoking `./sailfish`.
+
 # Contributing
 
 If you notice a bug, feel free to open an [Issue](https://github.com/schkwve/sailfish/issues).
