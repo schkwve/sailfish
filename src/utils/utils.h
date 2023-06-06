@@ -20,10 +20,21 @@
 #ifndef __UTILS_H_
 #define __UTILS_H_
 
-#define SERVER_IP "77.75.77.165" // smtp.seznam.cz
+#include <stdio.h>
+#include <string.h>
+
+#include <openssl/ssl.h>
+
+#define SERVER_IP "77.75.77.165" // pop3.seznam.cz
 #define SERVER_PORT 465
 
 // Isn't this more than enough?
 #define MAX_BUFSIZE 16384
+
+///
+void send_verify(SSL **ssl, char *buf, char *expected);
+void recv_verify(SSL **ssl, char *expected);
+void data_send(SSL **ssl, char *buf);
+char *data_recv(SSL **ssl);
 
 #endif // __UTILS_H_

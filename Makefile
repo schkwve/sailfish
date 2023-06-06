@@ -2,9 +2,9 @@ CC := gcc
 LD := ld
 
 CFLAGS += -c -std=c99 -Wall -O3
-DEBUG ?= 0
+DEBUG ?= 1
 ifeq ($(DEBUG), 1)
-	CFLAGS += -DDEBUG -g4
+	CFLAGS += -DDEBUG -g3
 endif
 LDFLAGS += -lm -lssl -lcrypto
 
