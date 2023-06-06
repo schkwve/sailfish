@@ -12,6 +12,10 @@ BraceWrapping:
   BeforeCatch: false
   BeforeElse: false
   IndentBraces: false
+BreakBeforeBraces: Custom
+BreakConstructorInitializersBeforeComma: false
+BreakConstructorInitializers: BeforeComma
+BreakStringLiterals: false
 ColumnLimit: 80
 DisableFormat: false
 IndentCaseLabels: false
