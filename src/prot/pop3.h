@@ -22,7 +22,7 @@
 
 #include <openssl/ssl.h>
 
-void pop3_auth(SSL *ssl);
+void pop3_connect(SSL *ssl);
 void pop3_quit(SSL *ssl);
 
 #endif // __POP3_H_

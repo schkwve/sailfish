@@ -31,7 +31,7 @@
 
 #include "smtp.h"
 
-void smtp_auth(SSL *ssl)
+void smtp_connect(SSL *ssl)
 {
 	char *buf[MAX_BUFSIZE];
 

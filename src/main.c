@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-	pop3_auth(ssl);
+	pop3_connect(ssl);
 
 	pop3_quit(ssl);
 

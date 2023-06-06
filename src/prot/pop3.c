@@ -29,17 +29,26 @@
 #include "../utils/login.h"
 #include "../utils/utils.h"
 
+#include "../utils/login.h"
+
 #include "pop3.h"
 
-void pop3_auth(SSL *ssl)
+void pop3_connect(SSL *ssl)
 {
-	char buf[MAX_BUFSIZE];
+	char *buf[MAX_BUFSIZE];
 
 	recv_verify(&ssl, "+OK");
 
-	// TODO: login
+	sprintf(buf, "user %s\r\n", LOGIN_USERNAME);
+	send_verify(&ssl, buf, "+OK");
+	sprintf(buf, "pass %s\r\n", LOGIN_PASS);
+	send_verify(&ssl, buf, "+OK");
 }
 
 void pop3_quit(SSL *ssl)
 {
+	char *buf[MAX_BUFSIZE];
+
+	sprintf(buf, "quit\r\n");
+	data_send(&ssl, buf);
 }
