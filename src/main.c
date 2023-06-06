@@ -58,9 +58,9 @@ int main(int argc, char **argv)
 		exit(0);
 	}
 
-	smtp_auth(ssl);
+	pop3_auth(ssl);
 
-	smtp_quit(ssl);
+	pop3_quit(ssl);
 
 	SSL_shutdown(ssl);
 	close(sockfd);

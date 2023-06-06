@@ -25,8 +25,8 @@
 
 #include <openssl/ssl.h>
 
-#define SERVER_IP "77.75.77.165" // pop3.seznam.cz
-#define SERVER_PORT 465
+#define SERVER_IP "77.75.79.90" // pop3.seznam.cz
+#define SERVER_PORT 995
 
 // Isn't this more than enough?
 #define MAX_BUFSIZE 16384
