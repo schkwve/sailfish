@@ -22,7 +22,7 @@
 
 #include <openssl/ssl.h>
 
-void smtp_auth(int sockfd);
-void smtp_login(SSL **ssl, const char *response);
+void smtp_auth(SSL *ssl);
+void smtp_quit(SSL *ssl);
 
 #endif // __SMTP_H_

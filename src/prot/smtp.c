@@ -26,151 +26,33 @@
 #include <openssl/ssl.h>
 
 #include "../enc/base64.h"
+#include "../utils/login.h"
 #include "../utils/utils.h"
+
 #include "smtp.h"
 
-#include "../utils/login.h"
-
-void smtp_auth(int sockfd)
+void smtp_auth(SSL *ssl)
 {
-	char buf[MAX_BUFSIZE];
-	char auth_method[MAX_BUFSIZE];
+	char *buf[MAX_BUFSIZE];
 
-	const SSL_METHOD *method;
-	SSL_CTX *ssl_ctx;
-	SSL *ssl;
-
-	OpenSSL_add_all_algorithms();
-
-	if (SSL_library_init() < 0) {
-		printf("[!] Couldn't initialize OpenSSL! Exitting...\n");
-	} else {
-		method = SSLv23_client_method();
-		if ((ssl_ctx = SSL_CTX_new(method)) == NULL) {
-			printf("[!] Couldn't initialize OpenSSL's context! Exitting...\n");
-		} else {
-			SSL_CTX_set_options(ssl_ctx, SSL_OP_NO_SSLv2);
-			ssl = SSL_new(ssl_ctx);
-			SSL_set_fd(ssl, sockfd);
-		}
-	}
-
-	if (SSL_connect(ssl) != 1) {
-		// lol too bad
-		printf("[!] Couldn't create SSL session! Exitting...");
-		exit(0);
-	}
-
-	memset(buf, 0, sizeof(buf));
-	SSL_read(ssl, buf, sizeof(buf));
-
-	// Here we expect to get code 220.
-	if (strncmp(buf, "220", 3) != 0) {
-		printf("[!] Remote server didn't send code 220! Got response: %s\n",
-			   buf);
-		exit(0);
-	}
+	recv_verify(&ssl, "220");
 
 	// We can now send EHLO.
-	memset(buf, 0, sizeof(buf));
-	strcat(buf, "EHLO localhost\r\n");
-	SSL_write(ssl, buf, strlen(buf));
+	// FIXME: set own domain name
+	sprintf(buf, "EHLO localhost\r\n");
+	send_verify(&ssl, buf, "250");
 
-	memset(buf, 0, sizeof(buf));
-	SSL_read(ssl, buf, sizeof(buf));
-
-	printf("%s\n", buf);
-
-	smtp_login(&ssl, buf);
-
-	memset(buf, 0, sizeof(buf));
-	sprintf(buf, "QUIT\r\n");
-	SSL_write(ssl, buf, strlen(buf));
-	memset(buf, 0, sizeof(buf));
-	SSL_read(ssl, buf, sizeof(buf));
-	printf("%s\n", buf);
+	sprintf(buf, "AUTH LOGIN\r\n");
+	send_verify(&ssl, buf, "334 VXNlcm5hbWU6"); // 334 Username:
+	sprintf(buf, "%s\r\n", base64_encode(LOGIN_USERNAME));
+	send_verify(&ssl, buf, "334 UGFzc3dvcmQ6"); // 334 Password:
+	sprintf(buf, "%s\r\n", base64_encode(LOGIN_PASS));
+	send_verify(&ssl, buf, "235"); // Authentication successful
 }
 
-void smtp_login(SSL **ssl, const char *response)
+void smtp_quit(SSL *ssl)
 {
-	char *token[128];
 	char *buf[MAX_BUFSIZE];
-	char *tmp = response;
-	char *res[16];
-	int i = 0;
-	int j;
-
-	char *login_challenge[MAX_BUFSIZE];
-
-	while ((token[i] = strtok_r(tmp, " ", &tmp)))
-		i++;
-
-	/// FIXME: Self-explanatory.
-	for (j = 0; j < i; j++) {
-		/*if (strncmp(token[j], "XOAUTH2", 8) == 0) {
-			snprintf(res, 9, "%s", token[j]);
-			break;
-		}
-		if (strncmp(token[j], "CRAM-MD5", 9) == 0) {
-			snprintf(res, 9, "%s", token[j]);
-			continue;
-		}*/
-		if (strncmp(token[j], "LOGIN", 6) == 0) {
-			snprintf(res, 6, "%s", token[j]);
-			continue;
-		}
-		/*if (strncmp(token[j], "PLAIN", 6) == 0) {
-			snprintf(res, 6, "%s", token[j]);
-			continue;
-		}*/
-	}
-
-	/*if (strncmp(res, "XOAUTH2", 8) == 0) {
-		sprintf(login_challenge, "user=%s\001auth=Bearer %s\001\001",
-	XOAUTH2_USER, XOAUTH2_ACCESS_TOKEN); sprintf(buf, "AUTH XOAUTH2 %s\r\n",
-	base64_encode(login_challenge)); SSL_write(*ssl, buf, strlen(buf));
-		printf("Written: %s\n", buf);
-
-		// lelz
-		memset(login_challenge, 0, sizeof(login_challenge));
-
-		SSL_read(*ssl, buf, sizeof(buf));
-		printf("%s\n", buf);
-
-		memset(buf, 0, sizeof(buf));
-		SSL_write(*ssl, buf, sizeof(buf));
-
-		memset(buf, 0, sizeof(buf));
-		SSL_read(*ssl, buf, sizeof(buf));
-		printf("%s\n", buf);
-	}*/
-
-	if (strncmp(res, "LOGIN", 6) == 0) {
-		memset(buf, 0, sizeof(buf));
-		sprintf(buf, "AUTH LOGIN\r\n");
-		SSL_write(*ssl, buf, strlen(buf));
-		printf("%s\n", buf);
-
-		memset(buf, 0, sizeof(buf));
-		SSL_read(*ssl, buf, sizeof(buf));
-		printf("%s\n", buf);
-
-		memset(buf, 0, sizeof(buf));
-		sprintf(buf, "%s\r\n", base64_encode(LOGIN_USERNAME));
-		SSL_write(*ssl, buf, strlen(buf));
-		printf("%s\n", buf);
-
-		memset(buf, 0, sizeof(buf));
-		SSL_read(*ssl, buf, sizeof(buf));
-		printf("%s\n", buf);
-
-		memset(buf, 0, sizeof(buf));
-		sprintf(buf, "%s\r\n", base64_encode(LOGIN_PASS));
-		SSL_write(*ssl, buf, strlen(buf));
-		printf("%s\n", buf);
-
-		memset(buf, 0, sizeof(buf));
-		SSL_read(*ssl, buf, sizeof(buf));
-		printf("%s\n", buf);
-	}
+	sprintf(buf, "QUIT\r\n");
+	data_send(&ssl, buf);
 }
