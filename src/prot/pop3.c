@@ -17,15 +17,29 @@
  *
  */
 
-#ifndef __SOCK_H_
-#define __SOCK_H_
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <strings.h>
+#include <unistd.h>
 
 #include <openssl/ssl.h>
 
-// for convenience :^)
-typedef struct sockaddr sockaddr_t;
-typedef struct sockaddr_in sockin_t;
+#include "../enc/base64.h"
+#include "../utils/login.h"
+#include "../utils/utils.h"
 
-int socket_init();
+#include "pop3.h"
 
-#endif // __SOCK_H_
+void pop3_auth(SSL *ssl)
+{
+	char buf[MAX_BUFSIZE];
+
+	recv_verify(&ssl, "+OK");
+
+	// TODO: login
+}
+
+void pop3_quit(SSL *ssl)
+{
+}

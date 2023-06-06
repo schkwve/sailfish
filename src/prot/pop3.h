@@ -17,15 +17,12 @@
  *
  */
 
-#ifndef __SOCK_H_
-#define __SOCK_H_
+#ifndef __POP3_H_
+#define __POP3_H_
 
 #include <openssl/ssl.h>
 
-// for convenience :^)
-typedef struct sockaddr sockaddr_t;
-typedef struct sockaddr_in sockin_t;
+void pop3_auth(SSL *ssl);
+void pop3_quit(SSL *ssl);
 
-int socket_init();
-
-#endif // __SOCK_H_
+#endif // __POP3_H_

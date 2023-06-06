@@ -19,6 +19,11 @@
 
 #include <unistd.h>
 
+#include <openssl/ssl.h>
+
+#include "enc/base64.h"
+
+#include "prot/pop3.h"
 #include "prot/smtp.h"
 
 #include "utils/sock.h"
@@ -26,10 +31,38 @@
 
 int main(int argc, char **argv)
 {
+	const SSL_METHOD *method;
+	SSL_CTX *ssl_ctx;
+	SSL *ssl;
+
 	int sockfd = socket_init();
 
-	smtp_auth(sockfd);
+	// init SSL
+	OpenSSL_add_all_algorithms();
+	if (SSL_library_init() < 0) {
+		printf("[!] Couldn't initialize OpenSSL! Exitting...\n");
+	} else {
+		method = SSLv23_client_method();
+		if ((ssl_ctx = SSL_CTX_new(method)) == NULL) {
+			printf("[!] Couldn't initialize OpenSSL's context! Exitting...\n");
+		} else {
+			SSL_CTX_set_options(ssl_ctx, SSL_OP_NO_SSLv2);
+			ssl = SSL_new(ssl_ctx);
+			SSL_set_fd(ssl, sockfd);
+		}
+	}
 
+	if (SSL_connect(ssl) != 1) {
+		// lol too bad
+		printf("[!] Couldn't create SSL session! Exitting...");
+		exit(0);
+	}
+
+	smtp_auth(ssl);
+
+	smtp_quit(ssl);
+
+	SSL_shutdown(ssl);
 	close(sockfd);
 
 	return 0;

@@ -27,6 +27,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <openssl/ssl.h>
+
 #include "sock.h"
 #include "utils.h"
 
