@@ -25,9 +25,9 @@
 
 #include <openssl/ssl.h>
 
-#include "smtp.h"
 #include "../enc/base64.h"
 #include "../utils/utils.h"
+#include "smtp.h"
 
 #include "../utils/login.h"
 
@@ -66,7 +66,8 @@ void smtp_auth(int sockfd)
 
 	// Here we expect to get code 220.
 	if (strncmp(buf, "220", 3) != 0) {
-		printf("[!] Remote server didn't send code 220! Got response: %s\n", buf);
+		printf("[!] Remote server didn't send code 220! Got response: %s\n",
+			   buf);
 		exit(0);
 	}
 
@@ -103,7 +104,7 @@ void smtp_login(SSL **ssl, const char *response)
 
 	while ((token[i] = strtok_r(tmp, " ", &tmp)))
 		i++;
-	
+
 	/// FIXME: Self-explanatory.
 	for (j = 0; j < i; j++) {
 		/*if (strncmp(token[j], "XOAUTH2", 8) == 0) {
@@ -125,9 +126,9 @@ void smtp_login(SSL **ssl, const char *response)
 	}
 
 	/*if (strncmp(res, "XOAUTH2", 8) == 0) {
-		sprintf(login_challenge, "user=%s\001auth=Bearer %s\001\001", XOAUTH2_USER, XOAUTH2_ACCESS_TOKEN);
-		sprintf(buf, "AUTH XOAUTH2 %s\r\n", base64_encode(login_challenge));
-		SSL_write(*ssl, buf, strlen(buf));
+		sprintf(login_challenge, "user=%s\001auth=Bearer %s\001\001",
+	XOAUTH2_USER, XOAUTH2_ACCESS_TOKEN); sprintf(buf, "AUTH XOAUTH2 %s\r\n",
+	base64_encode(login_challenge)); SSL_write(*ssl, buf, strlen(buf));
 		printf("Written: %s\n", buf);
 
 		// lelz
