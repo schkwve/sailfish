@@ -16,6 +16,10 @@ OBJ=$(SRC:.c=.o)
 .PHONY: all
 all: clean $(NAME) # Build everything
 
+.PHONY: format
+format: # Format the code as described in .clang-format
+	find src -type f -name "*.c" -o -name "*.h" | xargs clang-format -i
+
 .PHONY: help
 help: # Print help
 	@grep '^[^.#]\+:\s\+.*#' Makefile | \
