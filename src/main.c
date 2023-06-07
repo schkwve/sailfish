@@ -18,10 +18,11 @@
  */
 
 #include <unistd.h>
-
 #include <openssl/ssl.h>
 
 #include "enc/base64.h"
+
+#include "ui/ui.hpp"
 
 #include "prot/pop3.h"
 #include "prot/smtp.h"
@@ -64,6 +65,8 @@ int main(int argc, char **argv)
 
 	SSL_shutdown(ssl);
 	close(sockfd);
+
+	ui_init();
 
 	return 0;
 }

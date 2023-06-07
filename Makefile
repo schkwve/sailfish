@@ -1,17 +1,29 @@
 CC := gcc
+CXX := g++
 LD := ld
 
-CFLAGS += -c -std=c99 -Wall -O3
+
+CFLAGS ?= -c -std=c99 -Wall -O3
+CXXFLAGS ?= -c -std=c++17 -Wall -O3
+LDFLAGS ?= -lm -lssl -lcrypto -lstdc++
+
+# macOS fixes
+ifeq ($(shell uname -s),Darwin)
+    CFLAGS += -I/opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/sdl2/include
+    CXXFLAGS += -I/opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/sdl2/include
+    LDFLAGS += -L/opt/homebrew/opt/openssl/lib -L/opt/homebrew/opt/sdl2/lib
+endif
+
 DEBUG ?= 1
 ifeq ($(DEBUG), 1)
 	CFLAGS += -DDEBUG -g3
 endif
-LDFLAGS += -lm -lssl -lcrypto
 
 NAME=sailfish
 
-SRC=$(shell find src -name "*.c" -type f)
-OBJ=$(SRC:.c=.o)
+C_FILES=$(shell find src -name "*.c" -type f)
+CXX_FILES=$(shell find src -name "*.cpp" -type f)
+OBJ=$(C_FILES:.c=.o) $(CXX_FILES:.cpp=.o)
 
 .PHONY: all
 all: clean $(NAME) # Build everything
@@ -29,6 +41,9 @@ help: # Print help
 %.o: %.c
 	@printf " CC  $^\n"
 	@$(CC) $(CFLAGS) $< -o $@
+%.o: %.cpp
+	@printf " CXX $^\n"
+	@$(CXX) $(CXXFLAGS) $< -o $@
 
 $(NAME): $(OBJ)
 	@printf " LD  $@\n"
