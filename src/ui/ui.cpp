@@ -19,8 +19,8 @@
 
 #include <wx/wx.h>
 
-#include "app.hpp"
-#include "ui.hpp"
+#include "App.hpp"
+#include "UI.hpp"
 
 wxIMPLEMENT_APP_NO_MAIN(App);
 

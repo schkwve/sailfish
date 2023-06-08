@@ -19,13 +19,13 @@
 
 #include <wx/wx.h>
 
-#include "app.hpp"
-#include "scr/mainframe.hpp"
+#include "App.hpp"
+#include "scr/AccountDiag.hpp"
 
 bool App::OnInit()
 {
-	MainFrame *mainFrame = new MainFrame("Sailfish v0.1");
-	mainFrame->Show();
+	AccountDiag *accDiag = new AccountDiag(nullptr, wxID_ANY);
+	accDiag->Show();
 
 	return true;
 }

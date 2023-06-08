@@ -22,7 +22,7 @@
 
 #include "enc/base64.h"
 
-#include "ui/ui.hpp"
+#include "ui/UI.hpp"
 
 #include "prot/pop3.h"
 #include "prot/smtp.h"
