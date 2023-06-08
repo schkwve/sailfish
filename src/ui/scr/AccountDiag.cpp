@@ -19,8 +19,13 @@
 
 #include "AccountDiag.hpp"
 
+#include <iostream>
+#include <sqlite3.h>
+
 #include <wx/intl.h>
 #include <wx/string.h>
+
+#include "../../db/db.h"
 
 const long AccountDiag::ID_LISTCTRL2 = wxNewId();
 const long AccountDiag::AC_BTN_NEW = wxNewId();
@@ -30,6 +35,13 @@ const long AccountDiag::ID_PANEL1 = wxNewId();
 const long AccountDiag::AC_BTN_CLOSE = wxNewId();
 
 BEGIN_EVENT_TABLE(AccountDiag, wxDialog)
+
+EVT_BUTTON(AC_BTN_NEW, AccountDiag::OpenNew)
+EVT_BUTTON(AC_BTN_REMOVE, AccountDiag::RemoveAcc)
+EVT_BUTTON(AC_BTN_EDIT, AccountDiag::OpenEdit)
+
+EVT_BUTTON(AC_BTN_CLOSE, AccountDiag::CloseDiag)
+
 END_EVENT_TABLE()
 
 AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
@@ -48,6 +60,26 @@ AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
 	AcListCtrl =
 		new wxListCtrl(Panel1, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize,
 					   wxLC_REPORT, wxDefaultValidator, _T("ID_LISTCTRL2"));
+	
+	wxListItem acNameItem;
+	wxListItem acTypeItem;
+	wxListItem acServItem;
+
+	acNameItem.SetId(0);
+	acNameItem.SetText(_("Name"));
+	acNameItem.SetWidth(200);
+	AcListCtrl->InsertColumn(0, acNameItem);
+
+	acTypeItem.SetId(1);
+	acTypeItem.SetText(_("Type"));
+	acTypeItem.SetWidth(50);
+	AcListCtrl->InsertColumn(1, acTypeItem);
+
+	acServItem.SetId(2);
+	acServItem.SetText(_("Server"));
+	acServItem.SetWidth(150);
+	AcListCtrl->InsertColumn(2, acServItem);
+
 	BoxSizer3->Add(AcListCtrl, 1,
 				   wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL,
 				   5);
@@ -98,3 +130,57 @@ AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
 AccountDiag::~AccountDiag() {}
 
 void AccountDiag::OnInit(wxInitDialogEvent &event) {}
+
+void AccountDiag::OpenNew(wxCommandEvent &event)
+{
+	//AccountNewDiag *accNewDiag = new AccountNewDiag(nullptr, wxID_ANY);
+	//accNewDiag->Show();
+
+	// TODO: Before adding AccountNewDiag,
+	// simply add a dummy account to the database
+
+
+	////// TEST TEST TEST //////
+
+	long index = AcListCtrl->InsertItem(0, _("Work office"));
+	AcListCtrl->SetItem(index, 1, _("POP3"));
+	AcListCtrl->SetItem(index, 2, _("pop3.seznam.cz"));
+	
+	long index2 = AcListCtrl->InsertItem(1, _("Personal"));
+	AcListCtrl->SetItem(index2, 1, _("POP3"));
+	AcListCtrl->SetItem(index2, 2, _("pop3.gmail.com"));
+	
+	long index3 = AcListCtrl->InsertItem(2, _("Something else"));
+	AcListCtrl->SetItem(index3, 1, _("IMAP4"));
+	AcListCtrl->SetItem(index3, 2, _("imap.idk.com"));
+
+	// TODO: Add error checking to display error message
+	add_user("Work office", "POP3", "pop3.seznam.cz");
+	add_user("Personal", "POP3", "pop3.gmail.com");
+	add_user("Something else", "IMAP4", "imap.idk.com");
+
+	////// TEST TEST TEST //////
+}
+
+void AccountDiag::RemoveAcc(wxCommandEvent &event)
+{
+	long selectedItem = -1;
+
+	for (int i = 0; i < AcListCtrl->GetItemCount(); i++) {
+		selectedItem = AcListCtrl->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (selectedItem == -1) break;
+
+		remove_user(selectedItem);
+		AcListCtrl->DeleteItem(selectedItem);
+	}
+
+}
+
+void AccountDiag::OpenEdit(wxCommandEvent &event)
+{
+}
+
+void AccountDiag::CloseDiag(wxCommandEvent &event)
+{
+	this->Close();
+}

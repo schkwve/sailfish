@@ -49,6 +49,12 @@ protected:
 private:
 	void OnInit(wxInitDialogEvent &event);
 
+	void OpenNew(wxCommandEvent &event);
+	void RemoveAcc(wxCommandEvent &event);
+	void OpenEdit(wxCommandEvent &event);
+
+	void CloseDiag(wxCommandEvent &event);
+
 	DECLARE_EVENT_TABLE()
 };
 

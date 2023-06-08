@@ -24,6 +24,8 @@
 
 #include "ui/UI.hpp"
 
+#include "db/db.h"
+
 #include "prot/pop3.h"
 #include "prot/smtp.h"
 
@@ -32,6 +34,7 @@
 
 int main(int argc, char **argv)
 {
+	init_db();
 	// This section will be commented out before I move this to more appropriate
 	// places to prevent spamming the remote server
 	/*
