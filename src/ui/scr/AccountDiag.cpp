@@ -147,7 +147,8 @@ void AccountDiag::RemoveAcc(wxCommandEvent &event)
 			break;
 
 		// This single line is the reason I stared at my screen for 6 hours
-		// straight Thank, wxWidgets.
+		// straight.
+		// Fuck you wxWidgets.
 		AcListView->Select(selectedItem, false);
 
 		remove_user(selectedItem);
