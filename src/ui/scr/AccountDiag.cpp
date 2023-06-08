@@ -58,7 +58,7 @@ AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
 						 wxBORDER_STATIC, _T("ID_PANEL1"));
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
 	AcListCtrl =
-		new wxListCtrl(Panel1, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize,
+		new wxListView(Panel1, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize,
 					   wxLC_REPORT, wxDefaultValidator, _T("ID_LISTCTRL2"));
 	
 	wxListItem acNameItem;
@@ -167,8 +167,9 @@ void AccountDiag::RemoveAcc(wxCommandEvent &event)
 	long selectedItem = -1;
 
 	for (int i = 0; i < AcListCtrl->GetItemCount(); i++) {
-		selectedItem = AcListCtrl->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		selectedItem = AcListCtrl->GetFirstSelected();
 		if (selectedItem == -1) break;
+		AcListCtrl->Select(selectedItem, false);
 
 		remove_user(selectedItem);
 		AcListCtrl->DeleteItem(selectedItem);

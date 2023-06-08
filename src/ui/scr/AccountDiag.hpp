@@ -35,7 +35,7 @@ public:
 	wxButton *AcEditBtn;
 	wxButton *AcNewBtn;
 	wxButton *AcRemoveBtn;
-	wxListCtrl *AcListCtrl;
+	wxListView *AcListCtrl;
 	wxPanel *Panel1;
 
 protected:
