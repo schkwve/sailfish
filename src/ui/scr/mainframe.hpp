@@ -17,16 +17,14 @@
  *
  */
 
+#ifndef __MAINFRAME_HPP_
+#define __MAINFRAME_HPP_
+
 #include <wx/wx.h>
 
-#include "app.hpp"
-#include "ui.hpp"
+class MainFrame : public wxFrame {
+public:
+	MainFrame(const wxString &title);
+};
 
-wxIMPLEMENT_APP_NO_MAIN(App);
-
-extern "C" void ui_init(int argc, char **argv)
-{
-	wxEntryStart(argc, argv);
-	wxTheApp->CallOnInit();
-	wxTheApp->OnRun();
-}
+#endif // __MAINFRAME_HPP_

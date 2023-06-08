@@ -20,13 +20,12 @@
 #include <wx/wx.h>
 
 #include "app.hpp"
-#include "ui.hpp"
+#include "scr/mainframe.hpp"
 
-wxIMPLEMENT_APP_NO_MAIN(App);
-
-extern "C" void ui_init(int argc, char **argv)
+bool App::OnInit()
 {
-	wxEntryStart(argc, argv);
-	wxTheApp->CallOnInit();
-	wxTheApp->OnRun();
+	MainFrame *mainFrame = new MainFrame("Sailfish v0.1");
+	mainFrame->Show();
+
+	return true;
 }

@@ -17,8 +17,8 @@
  *
  */
 
-#include <unistd.h>
 #include <openssl/ssl.h>
+#include <unistd.h>
 
 #include "enc/base64.h"
 
@@ -32,6 +32,9 @@
 
 int main(int argc, char **argv)
 {
+	// This section will be commented out before I move this to more appropriate
+	// places to prevent spamming the remote server
+	/*
 	const SSL_METHOD *method;
 	SSL_CTX *ssl_ctx;
 	SSL *ssl;
@@ -64,9 +67,9 @@ int main(int argc, char **argv)
 	pop3_quit(ssl);
 
 	SSL_shutdown(ssl);
-	close(sockfd);
+	close(sockfd);*/
 
-	ui_init();
+	ui_init(argc, argv);
 
 	return 0;
 }

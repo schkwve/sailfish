@@ -2,16 +2,15 @@ CC := gcc
 CXX := g++
 LD := ld
 
-
 CFLAGS ?= -c -std=c99 -Wall -O3
-CXXFLAGS ?= -c -std=c++17 -Wall -O3
-LDFLAGS ?= -lm -lssl -lcrypto -lstdc++
+CXXFLAGS ?= -c -std=c++17 -Wall -O3 `wx-config --cxxflags`
+LDFLAGS ?= -lm -lssl -lcrypto -lstdc++ `wx-config --libs`
 
 # macOS fixes
 ifeq ($(shell uname -s),Darwin)
-    CFLAGS += -I/opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/sdl2/include
-    CXXFLAGS += -I/opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/sdl2/include
-    LDFLAGS += -L/opt/homebrew/opt/openssl/lib -L/opt/homebrew/opt/sdl2/lib
+    CFLAGS += -I/opt/homebrew/opt/openssl/include
+    CXXFLAGS += -I/opt/homebrew/opt/openssl/include
+    LDFLAGS += -L/opt/homebrew/opt/openssl/lib
 endif
 
 DEBUG ?= 1
@@ -30,7 +29,7 @@ all: clean $(NAME) # Build everything
 
 .PHONY: format
 format: # Format the code as described in .clang-format
-	find src -type f -name "*.c" -o -name "*.h" | xargs clang-format -i
+	find src -type f -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
 
 .PHONY: help
 help: # Print help

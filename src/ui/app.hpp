@@ -17,16 +17,12 @@
  *
  */
 
-#include <wx/wx.h>
+#ifndef __APP_HPP_
+#define __APP_HPP_
 
-#include "app.hpp"
-#include "ui.hpp"
+class App : public wxApp {
+public:
+	bool OnInit();
+};
 
-wxIMPLEMENT_APP_NO_MAIN(App);
-
-extern "C" void ui_init(int argc, char **argv)
-{
-	wxEntryStart(argc, argv);
-	wxTheApp->CallOnInit();
-	wxTheApp->OnRun();
-}
+#endif // __APP_HPP_

@@ -19,14 +19,9 @@
 
 #include <wx/wx.h>
 
-#include "app.hpp"
-#include "ui.hpp"
+#include "mainframe.hpp"
 
-wxIMPLEMENT_APP_NO_MAIN(App);
-
-extern "C" void ui_init(int argc, char **argv)
+MainFrame::MainFrame(const wxString &title)
+	: wxFrame(nullptr, wxID_ANY, title)
 {
-	wxEntryStart(argc, argv);
-	wxTheApp->CallOnInit();
-	wxTheApp->OnRun();
 }

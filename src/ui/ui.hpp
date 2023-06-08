@@ -26,7 +26,7 @@
 #define EXTERNC
 #endif
 
-EXTERNC void ui_init();
+EXTERNC void ui_init(int argc, char **argv);
 
 #undef EXTERNC
 
