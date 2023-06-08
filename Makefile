@@ -4,13 +4,13 @@ LD := ld
 
 CFLAGS ?= -c -std=c99 -Wall -O3
 CXXFLAGS ?= -c -std=c++17 -Wall -O3 `wx-config --cxxflags`
-LDFLAGS ?= -lm -lssl -lcrypto -lstdc++ `wx-config --libs`
+LDFLAGS ?= -lm -lssl -lcrypto -lstdc++ -lsqlite3 `wx-config --libs`
 
 # macOS fixes
 ifeq ($(shell uname -s),Darwin)
-    CFLAGS += -I/opt/homebrew/opt/openssl/include
-    CXXFLAGS += -I/opt/homebrew/opt/openssl/include
-    LDFLAGS += -L/opt/homebrew/opt/openssl/lib
+    CFLAGS += -I/opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/sqlite3/include
+    CXXFLAGS += -I/opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/sqlite3/include
+    LDFLAGS += -L/opt/homebrew/opt/openssl/lib -L/opt/homebrew/opt/sqlite3/lib
 endif
 
 DEBUG ?= 1
@@ -50,4 +50,4 @@ $(NAME): $(OBJ)
 
 .PHONY: clean
 clean: # Clean generated files
-	@rm -rf $(OBJ) $(NAME)
+	@rm -rf $(OBJ) $(NAME) accounts.db
