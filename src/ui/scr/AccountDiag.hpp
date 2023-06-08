@@ -35,11 +35,11 @@ public:
 	wxButton *AcEditBtn;
 	wxButton *AcNewBtn;
 	wxButton *AcRemoveBtn;
-	wxListView *AcListCtrl;
+	wxListView *AcListView;
 	wxPanel *Panel1;
 
 protected:
-	static const long ID_LISTCTRL2;
+	static const long AC_LISTVIEW;
 	static const long AC_BTN_NEW;
 	static const long AC_BTN_REMOVE;
 	static const long AC_BTN_EDIT;

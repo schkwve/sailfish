@@ -27,7 +27,7 @@
 
 #include "../../db/db.h"
 
-const long AccountDiag::ID_LISTCTRL2 = wxNewId();
+const long AccountDiag::AC_LISTVIEW = wxNewId();
 const long AccountDiag::AC_BTN_NEW = wxNewId();
 const long AccountDiag::AC_BTN_REMOVE = wxNewId();
 const long AccountDiag::AC_BTN_EDIT = wxNewId();
@@ -57,9 +57,9 @@ AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
 	Panel1 = new wxPanel(this, ID_PANEL1, wxDefaultPosition, wxDefaultSize,
 						 wxBORDER_STATIC, _T("ID_PANEL1"));
 	BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-	AcListCtrl =
-		new wxListView(Panel1, ID_LISTCTRL2, wxDefaultPosition, wxDefaultSize,
-					   wxLC_REPORT, wxDefaultValidator, _T("ID_LISTCTRL2"));
+	AcListView =
+		new wxListView(Panel1, AC_LISTVIEW, wxDefaultPosition, wxDefaultSize,
+					   wxLC_REPORT, wxDefaultValidator, _T("AC_LISTVIEW"));
 	
 	wxListItem acNameItem;
 	wxListItem acTypeItem;
@@ -68,19 +68,19 @@ AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
 	acNameItem.SetId(0);
 	acNameItem.SetText(_("Name"));
 	acNameItem.SetWidth(200);
-	AcListCtrl->InsertColumn(0, acNameItem);
+	AcListView->InsertColumn(0, acNameItem);
 
 	acTypeItem.SetId(1);
 	acTypeItem.SetText(_("Type"));
 	acTypeItem.SetWidth(50);
-	AcListCtrl->InsertColumn(1, acTypeItem);
+	AcListView->InsertColumn(1, acTypeItem);
 
 	acServItem.SetId(2);
 	acServItem.SetText(_("Server"));
 	acServItem.SetWidth(150);
-	AcListCtrl->InsertColumn(2, acServItem);
+	AcListView->InsertColumn(2, acServItem);
 
-	BoxSizer3->Add(AcListCtrl, 1,
+	BoxSizer3->Add(AcListView, 1,
 				   wxALL | wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL,
 				   5);
 	BoxSizer4 = new wxBoxSizer(wxVERTICAL);
@@ -142,17 +142,17 @@ void AccountDiag::OpenNew(wxCommandEvent &event)
 
 	////// TEST TEST TEST //////
 
-	long index = AcListCtrl->InsertItem(0, _("Work office"));
-	AcListCtrl->SetItem(index, 1, _("POP3"));
-	AcListCtrl->SetItem(index, 2, _("pop3.seznam.cz"));
+	long index = AcListView->InsertItem(0, _("Work office"));
+	AcListView->SetItem(index, 1, _("POP3"));
+	AcListView->SetItem(index, 2, _("pop3.seznam.cz"));
 	
-	long index2 = AcListCtrl->InsertItem(1, _("Personal"));
-	AcListCtrl->SetItem(index2, 1, _("POP3"));
-	AcListCtrl->SetItem(index2, 2, _("pop3.gmail.com"));
+	long index2 = AcListView->InsertItem(1, _("Personal"));
+	AcListView->SetItem(index2, 1, _("POP3"));
+	AcListView->SetItem(index2, 2, _("pop3.gmail.com"));
 	
-	long index3 = AcListCtrl->InsertItem(2, _("Something else"));
-	AcListCtrl->SetItem(index3, 1, _("IMAP4"));
-	AcListCtrl->SetItem(index3, 2, _("imap.idk.com"));
+	long index3 = AcListView->InsertItem(2, _("Something else"));
+	AcListView->SetItem(index3, 1, _("IMAP4"));
+	AcListView->SetItem(index3, 2, _("imap.idk.com"));
 
 	// TODO: Add error checking to display error message
 	add_user("Work office", "POP3", "pop3.seznam.cz");
@@ -166,13 +166,13 @@ void AccountDiag::RemoveAcc(wxCommandEvent &event)
 {
 	long selectedItem = -1;
 
-	for (int i = 0; i < AcListCtrl->GetItemCount(); i++) {
-		selectedItem = AcListCtrl->GetFirstSelected();
+	for (int i = 0; i < AcListView->GetItemCount(); i++) {
+		selectedItem = AcListView->GetFirstSelected();
 		if (selectedItem == -1) break;
-		AcListCtrl->Select(selectedItem, false);
+		AcListView->Select(selectedItem, false);
 
 		remove_user(selectedItem);
-		AcListCtrl->DeleteItem(selectedItem);
+		AcListView->DeleteItem(selectedItem);
 	}
 
 }
