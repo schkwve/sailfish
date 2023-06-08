@@ -26,17 +26,17 @@
 #include <wx/panel.h>
 #include <wx/sizer.h>
 
-class AccountDiag: public wxDialog {
+class AccountDiag : public wxDialog {
 public:
-	AccountDiag(wxWindow* parent,wxWindowID id=wxID_ANY);
+	AccountDiag(wxWindow *parent, wxWindowID id = wxID_ANY);
 	virtual ~AccountDiag();
 
-	wxButton* AcCloseBtn;
-	wxButton* AcEditBtn;
-	wxButton* AcNewBtn;
-	wxButton* AcRemoveBtn;
-	wxListCtrl* AcListCtrl;
-	wxPanel* Panel1;
+	wxButton *AcCloseBtn;
+	wxButton *AcEditBtn;
+	wxButton *AcNewBtn;
+	wxButton *AcRemoveBtn;
+	wxListCtrl *AcListCtrl;
+	wxPanel *Panel1;
 
 protected:
 	static const long ID_LISTCTRL2;
@@ -47,7 +47,7 @@ protected:
 	static const long AC_BTN_CLOSE;
 
 private:
-	void OnInit(wxInitDialogEvent& event);
+	void OnInit(wxInitDialogEvent &event);
 
 	DECLARE_EVENT_TABLE()
 };
