@@ -2,7 +2,7 @@
 
 # So... what can it do?
 
-As of now, Sailfish is in a very early stage of development. I'm working on implementing SMTP to _just work_. Then, security functions will come next, and the GUI last.
+As of now, Sailfish is in a very early stage of development, so... not much.
 
 # Building
 
