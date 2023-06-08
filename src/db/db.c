@@ -17,29 +17,31 @@
  *
  */
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <sqlite3.h>
 
 void init_db()
 {
-	sqlite3* sql_db;
-    char *init_query[128];
-	sprintf(init_query, "CREATE TABLE accounts(ID INT PRIMARY KEY     NOT NULL, NAME           TEXT    NOT NULL, TYPE          TEXT     NOT NULL, SERVER            TEXT     NOT NULL );");
+	sqlite3 *sql_db;
+	char *init_query[128];
+	sprintf(
+		init_query,
+		"CREATE TABLE accounts(ID INT PRIMARY KEY     NOT NULL, NAME           TEXT    NOT NULL, TYPE          TEXT     NOT NULL, SERVER            TEXT     NOT NULL );");
 
-    int result = 0;
-    char* message_err;
+	int result = 0;
+	char *message_err;
 
-    result = sqlite3_open("accounts.db", &sql_db);
-    result = sqlite3_exec(sql_db, init_query, NULL, 0, &message_err);
-  
-    if (result != SQLITE_OK) {
-        printf("[!] An error occured while initializing database!\n");
-        sqlite3_free(message_err);
-    }
+	result = sqlite3_open("accounts.db", &sql_db);
+	result = sqlite3_exec(sql_db, init_query, NULL, 0, &message_err);
 
-    sqlite3_close(sql_db);
+	if (result != SQLITE_OK) {
+		printf("[!] An error occured while initializing database!\n");
+		sqlite3_free(message_err);
+	}
+
+	sqlite3_close(sql_db);
 }
 
 int add_user(char *name, char *type, char *server)
@@ -51,7 +53,7 @@ int add_user(char *name, char *type, char *server)
 	sqlite3_stmt *stmt;
 	char *message_err;
 	int id;
-	
+
 	// no error handling - i like living dangerously
 	result = sqlite3_open("accounts.db", &sql_db);
 	if (result != SQLITE_OK) {
@@ -60,7 +62,8 @@ int add_user(char *name, char *type, char *server)
 		return -1;
 	}
 
-	result = sqlite3_prepare_v2(sql_db, "SELECT COUNT(*) FROM accounts;", -1, &stmt, NULL);
+	result = sqlite3_prepare_v2(sql_db, "SELECT COUNT(*) FROM accounts;", -1,
+								&stmt, NULL);
 	if (result != SQLITE_OK) {
 		sqlite3_free(message_err);
 		return -2;
@@ -75,7 +78,10 @@ int add_user(char *name, char *type, char *server)
 	sqlite3_finalize(stmt);
 
 	printf("[*] Adding user ID=%i...\n", id);
-	sprintf(sql_query, "INSERT INTO accounts(ID, NAME, TYPE, SERVER) VALUES (%i, \"%s\", \"%s\", \"%s\");", id, name, type, server);
+	sprintf(
+		sql_query,
+		"INSERT INTO accounts(ID, NAME, TYPE, SERVER) VALUES (%i, \"%s\", \"%s\", \"%s\");",
+		id, name, type, server);
 
 	result = sqlite3_exec(sql_db, sql_query, NULL, 0, &message_err);
 	if (result != SQLITE_OK) {

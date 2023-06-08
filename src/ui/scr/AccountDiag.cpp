@@ -60,7 +60,7 @@ AccountDiag::AccountDiag(wxWindow *parent, wxWindowID id)
 	AcListView =
 		new wxListView(Panel1, AC_LISTVIEW, wxDefaultPosition, wxDefaultSize,
 					   wxLC_REPORT, wxDefaultValidator, _T("AC_LISTVIEW"));
-	
+
 	wxListItem acNameItem;
 	wxListItem acTypeItem;
 	wxListItem acServItem;
@@ -133,33 +133,8 @@ void AccountDiag::OnInit(wxInitDialogEvent &event) {}
 
 void AccountDiag::OpenNew(wxCommandEvent &event)
 {
-	//AccountNewDiag *accNewDiag = new AccountNewDiag(nullptr, wxID_ANY);
-	//accNewDiag->Show();
-
-	// TODO: Before adding AccountNewDiag,
-	// simply add a dummy account to the database
-
-
-	////// TEST TEST TEST //////
-
-	long index = AcListView->InsertItem(0, _("Work office"));
-	AcListView->SetItem(index, 1, _("POP3"));
-	AcListView->SetItem(index, 2, _("pop3.seznam.cz"));
-	
-	long index2 = AcListView->InsertItem(1, _("Personal"));
-	AcListView->SetItem(index2, 1, _("POP3"));
-	AcListView->SetItem(index2, 2, _("pop3.gmail.com"));
-	
-	long index3 = AcListView->InsertItem(2, _("Something else"));
-	AcListView->SetItem(index3, 1, _("IMAP4"));
-	AcListView->SetItem(index3, 2, _("imap.idk.com"));
-
-	// TODO: Add error checking to display error message
-	add_user("Work office", "POP3", "pop3.seznam.cz");
-	add_user("Personal", "POP3", "pop3.gmail.com");
-	add_user("Something else", "IMAP4", "imap.idk.com");
-
-	////// TEST TEST TEST //////
+	// AccountNewDiag *accNewDiag = new AccountNewDiag(nullptr, wxID_ANY);
+	// accNewDiag->Show();
 }
 
 void AccountDiag::RemoveAcc(wxCommandEvent &event)
@@ -168,20 +143,24 @@ void AccountDiag::RemoveAcc(wxCommandEvent &event)
 
 	for (int i = 0; i < AcListView->GetItemCount(); i++) {
 		selectedItem = AcListView->GetFirstSelected();
-		if (selectedItem == -1) break;
+		if (selectedItem == -1)
+			break;
+
+		// This single line is the reason I stared at my screen for 6 hours
+		// straight Thank, wxWidgets.
 		AcListView->Select(selectedItem, false);
 
 		remove_user(selectedItem);
 		AcListView->DeleteItem(selectedItem);
 	}
-
 }
 
-void AccountDiag::OpenEdit(wxCommandEvent &event)
-{
-}
+void AccountDiag::OpenEdit(wxCommandEvent &event) {}
 
 void AccountDiag::CloseDiag(wxCommandEvent &event)
 {
+	// this is annoying because you have to manually kill the app.
+	// to be changed once I get this dialog working and I start working on the
+	// main window.
 	this->Close();
 }
