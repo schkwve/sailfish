@@ -22,8 +22,6 @@
 
 #include "enc/base64.h"
 
-#include "ui/UI.hpp"
-
 #include "db/db.h"
 
 #include "prot/pop3.h"
@@ -35,9 +33,7 @@
 int main(int argc, char **argv)
 {
 	init_db();
-	// This section will be commented out before I move this to more appropriate
-	// places to prevent spamming the remote server
-	/*
+
 	const SSL_METHOD *method;
 	SSL_CTX *ssl_ctx;
 	SSL *ssl;
@@ -70,9 +66,7 @@ int main(int argc, char **argv)
 	pop3_quit(ssl);
 
 	SSL_shutdown(ssl);
-	close(sockfd);*/
-
-	ui_init(argc, argv);
+	close(sockfd);
 
 	return 0;
 }

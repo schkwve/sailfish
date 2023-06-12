@@ -1,10 +1,8 @@
 CC := gcc
-CXX := g++
 LD := ld
 
 CFLAGS ?= -c -std=c99 -Wall -O3
-CXXFLAGS ?= -c -std=c++17 -Wall -O3 `wx-config --cxxflags`
-LDFLAGS ?= -lm -lssl -lcrypto -lstdc++ -lsqlite3 `wx-config --libs`
+LDFLAGS ?= -lm -lssl -lcrypto -lstdc++ -lsqlite3
 
 # macOS fixes
 ifeq ($(shell uname -s),Darwin)
@@ -21,15 +19,14 @@ endif
 NAME=sailfish
 
 C_FILES=$(shell find src -name "*.c" -type f)
-CXX_FILES=$(shell find src -name "*.cpp" -type f)
-OBJ=$(C_FILES:.c=.o) $(CXX_FILES:.cpp=.o)
+OBJ=$(C_FILES:.c=.o)
 
 .PHONY: all
 all: clean $(NAME) # Build everything
 
 .PHONY: format
 format: # Format the code as described in .clang-format
-	find src -type f -name "*.c" -o -name "*.h" -o -name "*.cpp" -o -name "*.hpp" | xargs clang-format -i
+	find src -type f -name "*.c" -o -name "*.h" | xargs clang-format -i
 
 .PHONY: help
 help: # Print help
@@ -40,9 +37,6 @@ help: # Print help
 %.o: %.c
 	@printf " CC  $^\n"
 	@$(CC) $(CFLAGS) $< -o $@
-%.o: %.cpp
-	@printf " CXX $^\n"
-	@$(CXX) $(CXXFLAGS) $< -o $@
 
 $(NAME): $(OBJ)
 	@printf " LD  $@\n"

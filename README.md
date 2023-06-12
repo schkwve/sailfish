@@ -18,8 +18,6 @@ Create the file from the following template, and fill the defines appropriately:
 #endif // __LOGIN_H_
 ```
 
-You'll also need wxWidgets installed *and* the `wx-config` command available.
-
 To build Sailfish, simply run `make`. For more build options, run `make help`.
 
 # Contributing
