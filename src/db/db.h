@@ -22,17 +22,4 @@
 
 void init_db();
 
-#ifdef __cplusplus
-#define EXTERNC extern "C"
-#else
-#define EXTERNC
-#endif
-
-void init_db();
-
-EXTERNC int add_user(char *name, char *type, char *server);
-EXTERNC int remove_user(int index);
-
-#undef EXTERNC
-
 #endif // __DB_H_
